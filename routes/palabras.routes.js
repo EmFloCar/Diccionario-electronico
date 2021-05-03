@@ -1,19 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const Palabra = require('./../models/palabra.models')
+const Palabra = require('./../models/palabra.models');
 
-router.post("/ejemplo", async (req, res) => {
+router.post("/", async(req, res) => {
+  const { nombre, informacion_gramatical, hiperonimo, hiponimo, significado, ejemplo } = req.body;
 
   const palabra_nueva = await Palabra.create({
-      nombre: "ejemplo_palabra",
-      informacion_gramatical: "ejemplo_palabra",
-      hiperonimo: "ejemplo_palabra",
-      hiponimo: "ejemplo_palabra",
-      significado: "ejemplo_palabra",
-      ejemplo: "ejemplo_palabra",
+      nombre: nombre,
+      informacion_gramatical: informacion_gramatical,
+      hiperonimo: hiperonimo,
+      hiponimo: hiponimo,
+      significado: significado,
+      ejemplo: ejemplo,
     });
     res.send(palabra_nueva);
-    console.log(palabra_nueva);
 })
+
+router.get('/', async(req, res) => {
+  const palabras = await Palabra.find();
+  res.json(palabras);
+});
+
+router.delete('/:id', async(req, res) => {
+  await Palabra.findByIdAndRemove(req.params.id);
+  res.json("eliminada");
+});
 
 module.exports = router;
