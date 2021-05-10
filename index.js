@@ -5,6 +5,7 @@ const refran_rutas = require("./routes/refranes.routes");
 const database = require("./bin/database");
 
 app.use(express.json())
+
 app.use("/palabra", palabra_rutas)
 app.use("/refran", refran_rutas)
 
