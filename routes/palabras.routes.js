@@ -4,10 +4,10 @@ const Palabra = require('./../models/palabra.models');
 
 //AÑADIR NUEVAS PALABRAS
 router.post("/", async(req, res) => {
-  const { nombre, informacion_gramatical, hiperonimo, hiponimo, significado, ejemplo } = req.body;
+  const { lema, informacion_gramatical, hiperonimo, hiponimo, significado, ejemplo } = req.body;
 
   const palabra_nueva = await Palabra.create({
-      nombre: nombre,
+      lema: lema,
       informacion_gramatical: informacion_gramatical,
       hiperonimo: hiperonimo,
       hiponimo: hiponimo,
@@ -21,6 +21,12 @@ router.post("/", async(req, res) => {
 router.get('/', async(req, res) => {
   const palabras = await Palabra.find();
   res.json(palabras);
+});
+
+//VER PALABRA POR ID
+router.get('/:id', async(req, res) => {
+  const palabra = await Palabra.findById(req.params.id);
+  res.json(palabra);
 });
 
 //ELIMINAR PALABRAS

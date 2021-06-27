@@ -5,10 +5,10 @@ const Refran = require('./../models/refranes.models')
 
 //AÑADIR NUEVOS REFRANES
 router.post("/", async(req, res) => {
-  const {refran, isoglosa, acto_de_habla, explicacion, ejemplo} = req.body;
+  const {lema, isoglosa, acto_de_habla, explicacion, ejemplo} = req.body;
 
   const refran_nuevo = await Refran.create({
-      refran: refran,
+      lema: lema,
       isoglosa: isoglosa,
       acto_de_habla: acto_de_habla,
       explicacion: explicacion,
@@ -20,6 +20,12 @@ router.post("/", async(req, res) => {
 //VER LOS REFRANES AÑADIDOS
 router.get('/', async(req, res) => {
   const refran = await Refran.find();
+  res.json(refran);
+});
+
+//VER PALABRA POR ID
+router.get('/:id', async(req, res) => {
+  const refran = await Refran.findById(req.params.id);
   res.json(refran);
 });
 

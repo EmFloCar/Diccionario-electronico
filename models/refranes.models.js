@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
  const blogSchema = new Schema({
 
-   refran:  {
+   lema:  {
      type: String,
      required: true,
    },
