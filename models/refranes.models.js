@@ -1,34 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
- const blogSchema = new Schema({
+ const refranSchema = new Schema({
 
-   lema:  {
-     type: String,
-     required: true,
-   },
+   lema: String,
+   isoglosa: String,
+   acto_de_habla: String,
+   significado: String
+ })
 
-   isoglosa: {
-     type: String,
-     required: true,
-   },
-
-   acto_de_habla:{
-     type: String,
-     required: true,
-   },
-
-   explicacion:{
-     type: String,
-     required: true,
-   },
-
-   ejemplo:{
-     type: String,
-     required: true,
-   }
- });
-
- const Refran = mongoose.model("refran", blogSchema);
+const Refran = mongoose.model("refran", refranSchema);
 
 module.exports = Refran;

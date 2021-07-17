@@ -5,14 +5,13 @@ const Refran = require('./../models/refranes.models')
 
 //AÑADIR NUEVOS REFRANES
 router.post("/", async(req, res) => {
-  const {lema, isoglosa, acto_de_habla, explicacion, ejemplo} = req.body;
+  const {lema, isoglosa, acto_de_habla, significado} = req.body;
 
   const refran_nuevo = await Refran.create({
       lema: lema,
       isoglosa: isoglosa,
       acto_de_habla: acto_de_habla,
-      explicacion: explicacion,
-      ejemplo: ejemplo
+      significado: significado,
     });
     res.send(refran_nuevo);
 })

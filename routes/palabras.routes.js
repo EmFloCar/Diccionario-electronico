@@ -1,20 +1,37 @@
 const express = require('express');
+const multer = require('multer');
+const upload = require('./../libs/storage')
 const router = express.Router();
 const Palabra = require('./../models/palabra.models');
 
-//AÑADIR NUEVAS PALABRAS
-router.post("/", async(req, res) => {
-  const { lema, informacion_gramatical, hiperonimo, hiponimo, significado, ejemplo } = req.body;
 
-  const palabra_nueva = await Palabra.create({
-      lema: lema,
-      informacion_gramatical: informacion_gramatical,
-      hiperonimo: hiperonimo,
-      hiponimo: hiponimo,
-      significado: significado,
-      ejemplo: ejemplo,
+//AÑADIR NUEVAS PALABRAS
+router.post("/", upload.single('file'), async(req, res, next) => {
+  try{
+  const { lema, informacion_gramatical, hiperonimo, hiponimo, significado, ejemplo, imagenUrl, isoglosa } = req.body;
+
+  const palabra_nueva = Palabra({
+      lema,
+      informacion_gramatical,
+      hiperonimo,
+      hiponimo,
+      significado,
+      ejemplo,
+      imagenUrl,
+      isoglosa,
     });
+
+      if (req.file) {
+    const {filename} = req.file
+    palabra_nueva.setImgUrl(filename)
+  }
+
+  const guardar = await palabra_nueva.save()
+  console.log(palabra_nueva)
     res.send(palabra_nueva);
+  }catch (err) {
+    next(err);
+  }
 })
 
 //VER LAS PALABRAS AÑADIDAS
