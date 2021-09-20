@@ -6,7 +6,7 @@ const palabraSchema = new Schema({
   lema: String,
   informacion_gramatical: String,
   hiperonimo: String,
-  hiponimo: String,
+  etimologia: String,
   significado: String,
   ejemplo: String,
   imagenUrl: Object, 
@@ -14,9 +14,8 @@ const palabraSchema = new Schema({
 
 });
 
-palabraSchema.methods.setImgUrl = function(filename){
-	console.log("Entra")
-	this.imagenUrl = `http://localhost:3000/public/${filename}`
+palabraSchema.methods.setImgUrl = function(location){
+	this.imagenUrl = location
 }
 
 const Palabra = mongoose.model("Palabra", palabraSchema);
