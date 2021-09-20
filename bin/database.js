@@ -8,7 +8,7 @@ class Database{
   async connect(){
     try {
       await mongoose.connect(
-        process.env.DB,
+        "mongodb+srv://emiliofc:emilio@cluster0.wbdwk.mongodb.net/Diccionario?retryWrites=true&w=majority",
       { useNewUrlParser: true,
         useUnifiedTopology: true,
       }
