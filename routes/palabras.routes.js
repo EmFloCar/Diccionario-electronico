@@ -4,6 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 const multerS3 = require('multer-s3')
 var aws = require('aws-sdk')
+const imageThumbnail = require('image-thumbnail');
 
 const Palabra = require('./../models/palabra.models');
 require('dotenv').config();
@@ -14,12 +15,31 @@ var s3 = new aws.S3({
   accessKeyId: process.env.S3_ACCESS_KEY,
   secretAccessKey: process.env.S3_SECRET_KEY,
 })
+
+var s3Thumbs = new aws.S3({
+  accessKeyId: process.env.S3_THUMBS_ACCESS_KEY,
+  secretAccessKey: process.env.S3_THUMBS_SECRET_KEY,
+})
  
 var upload = multer({
   storage: multerS3({
     s3: s3,
     contentType: multerS3.AUTO_CONTENT_TYPE,
     bucket: process.env.S3_BUCKED_NAME,
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+})
+
+var uploadThumbs = multer({
+  storage: multerS3({
+    s3: s3Thumbs,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    bucket: process.env.S3_THUMBS_BUCKED_NAME,
     metadata: function (req, file, cb) {
       cb(null, {fieldName: file.fieldname});
     },
@@ -45,7 +65,15 @@ router.post("/", upload.single('file'), async(req, res, next) => {
       imagenUrl,
       isoglosa,
     });
-    
+
+
+    try {
+      const thumbnail = await imageThumbnail('file');
+      console.log(thumbnail);
+  } catch (err) {
+      console.error(err);
+  }
+
   if (req.file) {
     const {location} = req.file
     palabra_nueva.setImgUrl(location)
