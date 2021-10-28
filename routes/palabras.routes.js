@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const multer = require('multer');
-const multerS3 = require('multer-s3')
+const multerS3 = require('multer-s3');
 var aws = require('aws-sdk')
 
 const Palabra = require('./../models/palabra.models');
@@ -14,7 +13,7 @@ var s3 = new aws.S3({
   accessKeyId: process.env.S3_ACCESS_KEY,
   secretAccessKey: process.env.S3_SECRET_KEY,
 })
- 
+
 var upload = multer({
   storage: multerS3({
     s3: s3,
@@ -45,7 +44,7 @@ router.post("/", upload.single('file'), async(req, res, next) => {
       imagenUrl,
       isoglosa,
     });
-    
+
   if (req.file) {
     const {location} = req.file
     palabra_nueva.setImgUrl(location)
@@ -78,10 +77,12 @@ router.delete('/:id', async(req, res) => {
   res.json("eliminada");
 });
 
-//EDITAR PALABRAS
+EDITAR PALABRAS
+
 router.put('/:id', async (req, res) => {
   await Palabra.findByIdAndUpdate(req.params.id, req.body)
   res.json("actualizado");
 })
+
 
 module.exports = router;
