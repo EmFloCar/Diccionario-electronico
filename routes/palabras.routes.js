@@ -77,7 +77,7 @@ router.delete('/:id', async(req, res) => {
   res.json("eliminada");
 });
 
-EDITAR PALABRAS
+//EDITAR PALABRAS
 
 router.put('/:id', async (req, res) => {
   await Palabra.findByIdAndUpdate(req.params.id, req.body)
