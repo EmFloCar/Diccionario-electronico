@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
  const refranSchema = new Schema({
 
    lema: String,
-   isoglosa: Array,
+   isoglosa: String,
    acto_de_habla: String,
    significado: String
  })

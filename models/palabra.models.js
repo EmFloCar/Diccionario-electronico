@@ -10,7 +10,7 @@ const palabraSchema = new Schema({
   significado: String,
   ejemplo: String,
   imagenUrl: Object, 
-  isoglosa: Array 
+  isoglosa: String 
 
 });
 
