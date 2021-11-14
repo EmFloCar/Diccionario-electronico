@@ -10,7 +10,17 @@ const MongoStore = require('connect-mongodb-session')(session);
 
 const app = express();
 
-app.use(cors())
+const store = new MongoStore({
+  uri: process.env.DB,
+  collection: 'sessions'
+});
+
+app.use(session({
+  secret: 'asdfghjklñ',
+  resave: false,
+  saveUninitialized: false,
+  store: store,
+}))
 
 const login = require("./routes/login.routes");
 const palabra_rutas = require("./routes/palabras.routes");
@@ -22,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(helmet());
 app.use(morgan('tiny'));
-
+app.use(cors())
 
 app.use('/', login); //admin
 app.use("/palabra", palabra_rutas);

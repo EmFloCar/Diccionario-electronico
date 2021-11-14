@@ -3,20 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user.models');
 const verificar = require('../middlewares/verificar');
-const session = require('express-session');
-const MongoStore = require('connect-mongodb-session')(session);
 
-const store = new MongoStore({
-  uri: process.env.DB,
-  collection: 'sessions'
-});
-
-app.use(session({
-  secret: 'asdfghjklñ',
-  resave: false,
-  saveUninitialized: true,
-  store: store,
-}))
 
 router.get('/auth', verificar, (req, res) => {
     res.send('Estas autorizado')
