@@ -5,22 +5,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const multer = require('multer');
-const session = require('express-session');
-const MongoStore = require('connect-mongodb-session')(session);
 
 const app = express();
-
-const store = new MongoStore({
-  uri: process.env.DB,
-  collection: 'sessions'
-});
-
-app.use(session({
-  secret: 'asdfghjklñ',
-  resave: false,
-  saveUninitialized: true,
-  store: store,
-}))
 
 const login = require("./routes/login.routes");
 const palabra_rutas = require("./routes/palabras.routes");
@@ -32,7 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(helmet());
 app.use(morgan('tiny'));
-app.use(cors())
 
 app.use('/', login); //admin
 app.use("/palabra", palabra_rutas);
