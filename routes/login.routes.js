@@ -17,17 +17,17 @@ router.post('/login', (req, res) => {
     const { username, password } = req.body;
     User.findOne({ username }, (err, user) => {
         if (err) {
-            res.status(500).send('Error en el servidor');
+            res.send('Error en el servidor');
         } else if (!user) {
-            res.status(400).send('El usuario no existe');
+            res.send('El usuario no existe');
         } else {
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) {
-                    res.status(500).send('Error en el servidor');
+                    res.send('Error en el servidor');
                 } else if (!isMatch) {
-                    res.status(400).send('Usuario o contraseña incorrecta');
+                    res.send('Usuario o contraseña incorrecta');
                 } else {
-                    res.status(200).send('Sesion iniciada con exito');
+                    res.send('Sesion iniciada con exito');
                     req.session.isAuth = true;
                     req.session.save();
                 }
@@ -43,9 +43,9 @@ router.post('/registrar', verificar, (req, res) => {
 
     user.save((err) => {
         if (err) {
-            res.status(500).send('Error al registrar el usuario'); //usuario ya existente
+            res.send('Error al registrar el usuario'); //usuario ya existente
         } else {
-            res.status(200).send('Usuario registrado');
+            res.send('Usuario registrado');
         }
     });
 });
