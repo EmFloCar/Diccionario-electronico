@@ -15,7 +15,6 @@ const store = new MongoStore({
   collection: 'sessions'
 });
 
-
 app.use(session({
   secret: 'asdfghjklñ',
   resave: false,
@@ -23,21 +22,10 @@ app.use(session({
   store: store,
 }))
 
-// const verificar = (req, res, next) => {
-//   if(req.session.isAuth){
-//     res.status(200).send('Ok')
-//     next()
-//   }else{
-//     res.status(401).send('Acceso denegado')
-//   }
-// }
-
 const login = require("./routes/login.routes");
 const palabra_rutas = require("./routes/palabras.routes");
 const refran_rutas = require("./routes/refranes.routes");
 const database = require("./bin/database");
-
-
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));

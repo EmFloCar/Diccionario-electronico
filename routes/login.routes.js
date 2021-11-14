@@ -2,14 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/user.models');
-
-const verificar = (req, res, next) => {
-    if(req.session.isAuth){
-        next()
-    }else{
-      res.status(401).send('No estas autorizado')
-    }
-  }
+const verificar = require('../middlewares/verificar');
 
 router.get('/auth', verificar, (req, res) => {
     res.send('Estas autorizado')
@@ -17,7 +10,7 @@ router.get('/auth', verificar, (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.session.destroy();
-    res.send('Has cerrado sesion')
+    res.send('Sesión cerrada')
 });
 
 router.post('/login', (req, res) => {
@@ -26,13 +19,13 @@ router.post('/login', (req, res) => {
         if (err) {
             res.status(500).send('Error en el servidor');
         } else if (!user) {
-            res.status(404).send('El usuario no existe');
+            res.status(400).send('El usuario no existe');
         } else {
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) {
                     res.status(500).send('Error en el servidor');
                 } else if (!isMatch) {
-                    res.status(404).send('Usuario o contraseña incorrecta');
+                    res.status(400).send('Usuario o contraseña incorrecta');
                 } else {
                     res.status(200).send('Sesion iniciada con exito');
                     req.session.isAuth = true;
