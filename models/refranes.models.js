@@ -6,8 +6,13 @@ const Schema = mongoose.Schema;
    lema: String,
    isoglosa: String,
    acto_de_habla: String,
-   significado: String
+   significado: String,
+   imagenUrl: Object
  })
+
+refranSchema.methods.setImgUrl = function(location){
+  this.imagenUrl = location
+}
 
 const Refran = mongoose.model("refran", refranSchema);
 
