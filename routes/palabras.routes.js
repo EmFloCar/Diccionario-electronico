@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 var aws = require('aws-sdk')
+const verifyToken = require('./verifyToken');
 
 const Palabra = require('./../models/palabra.models');
 require('dotenv').config();
@@ -60,7 +61,7 @@ router.post("/", upload.single('file'), async(req, res, next) => {
 })
 
 //VER TODAS LAS PALABRAS AÑADIDAS
-router.get('/', async(req, res) => {
+router.get('/',  verifyToken, async(req, res) => {
   const palabras = await Palabra.find();
   res.json(palabras);
 });

@@ -5,24 +5,10 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const multer = require('multer');
-const session = require('express-session');
-const MongoStore = require('connect-mongodb-session')(session);
-
 const app = express();
 
-const store = new MongoStore({
-  uri: process.env.DB,
-  collection: 'sessions'
-});
 
-app.use(session({
-  secret: 'asdfghjklñ',
-  resave: false,
-  saveUninitialized: false,
-  store: store,
-}))
-
-const login = require("./routes/login.routes");
+const login = require("./routes/auth.routes");
 const palabra_rutas = require("./routes/palabras.routes");
 const refran_rutas = require("./routes/refranes.routes");
 const database = require("./bin/database");

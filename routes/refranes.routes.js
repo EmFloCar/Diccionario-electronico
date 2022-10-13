@@ -74,12 +74,34 @@ router.delete('/:id', async(req, res) => {
   res.json("eliminada");
 });
 
-//EDITAR REFRAN
+//EDITAR REFRAN SIN IMAGEN
 router.put('/:id', async (req, res) => {
   await Refran.findByIdAndUpdate(req.params.id, req.body)
   res.json("actualizado");
 })
 
-
+//EDITAR REFRAN CON IMAGEN
+router.put('withImage/:id', upload.single('file'), async (req, res, next) => {
+  try{
+    const {lema, isoglosa, acto_de_habla, imagenUrl, significado} = req.body;
+  
+    const refranEditado = {
+      lema,
+      isoglosa,
+      acto_de_habla,
+      imagenUrl,
+      significado
+    }
+    if (req.file) {
+      const {location} = req.file
+      refranEditado.imagenUrl = location
+    }
+  
+    await Refran.findByIdAndUpdate(req.params.id, refranEditado)
+    res.json("actualizado");
+  }catch(err){
+    next(err)
+  }
+})
 
 module.exports = router;
