@@ -38,12 +38,12 @@ router.post('/login', async (req, res) =>{
                 } else if (!isMatch) {
                     res.send('Usuario o contraseña incorrecta');
                 } else {
-                    res.send('Sesion iniciada con exito');
-
                     jwt.sign({ user: user.username}, process.env.JWT_KEY, (err, token) => {
                         console.log(err);
                         if (err) throw (err);
-                        res.header({
+                        console.log("token: " + token)
+                        res.send({
+                            message: 'Sesion iniciada con exito',
                             userId: user._id,
                             token: token
                         })
@@ -55,7 +55,6 @@ router.post('/login', async (req, res) =>{
 })
 
 router.get('/verify', verifyToken, async (req, res) => {
-    console.log(req.user);
     console.log('you have permisions');
 });
 
